@@ -1,4 +1,3 @@
-using System;
 using System.Text.RegularExpressions;
 
 namespace Shuttle.Core.Cron;
@@ -66,7 +65,7 @@ public class CronDayOfMonth : CronField
         {
             case ExpressionType.Skipped:
             {
-                return date;
+                break;
             }
             case ExpressionType.NearestWeekDay:
             {

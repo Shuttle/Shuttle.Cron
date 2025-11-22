@@ -1,4 +1,3 @@
-using System;
 using NUnit.Framework;
 
 namespace Shuttle.Core.Cron.Tests;

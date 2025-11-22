@@ -1,22 +1,20 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
-    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include=".package\AssemblyInfo.cs.template" />
-    <None Include=".package\package.msbuild" />
-    <None Include=".package\package.nuspec.template" />
-    <None Include=".package\Shuttle.NuGetPackager.MSBuild.dll" />
-    <None Include=".package\Shuttle.NuGetPackager.targets" />
+    <Compile Remove=".package\**" />
+    <EmbeddedResource Remove=".package\**" />
+    <None Remove=".package\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Shuttle.Core.Contract" Version="20.0.0" />
-    <PackageReference Include="Shuttle.Core.Specification" Version="20.0.0" />
+    <PackageReference Include="Shuttle.Core.Contract" Version="21.0.0" />
+    <PackageReference Include="Shuttle.Core.Specification" Version="21.0.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -33,5 +31,37 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
+
+  <PropertyGroup>
+    <Description>Cron expression parsing.</Description>
+    <Version>21.0.0</Version>
+    <PackageProjectUrl>https://github.com/Shuttle/Shuttle.Core.Cron</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/Shuttle/Shuttle.Core.Cron.git</RepositoryUrl>
+    <PackageTags>cron scheduling</PackageTags>
+    <Authors>Eben Roux</Authors>
+    <Company>Shuttle</Company>
+    <Copyright>Copyright (c) 2025, Eben Roux</Copyright>
+    <PackageIcon>logo.png</PackageIcon>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageLicenseExpression>BSD-3-Clause</PackageLicenseExpression>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\.media\logo.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+    <None Include="..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+
+  <Target Name="CopyNuGetPackage" AfterTargets="Pack" Condition="'$(NUGET_PACKAGE_FOLDER)' != ''">
+    <Message Text="Removing cached NuGet package '$(USERPROFILE)\.nuget\packages\$(AssemblyName)\$(Version)'..." Importance="high" />
+    <RemoveDir Directories="$(USERPROFILE)\.nuget\packages\$(AssemblyName)\$(Version)" />
+    <Message Text="Copying NuGet package to '$(NUGET_PACKAGE_FOLDER)'..." Importance="high" />
+    <Copy SourceFiles="bin\$(Configuration)\$(AssemblyName).$(Version).nupkg" DestinationFolder="$(NUGET_PACKAGE_FOLDER)" SkipUnchangedFiles="true" />
+  </Target>
 
 </Project>

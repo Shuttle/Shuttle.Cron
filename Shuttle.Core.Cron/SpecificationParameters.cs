@@ -1,13 +1,9 @@
-﻿namespace Shuttle.Core.Cron;
+﻿using Shuttle.Core.Contract;
 
-public class SpecificationParameters
+namespace Shuttle.Core.Cron;
+
+public class SpecificationParameters(FieldName fieldName, string expression)
 {
-    public SpecificationParameters(FieldName fieldName, string expression)
-    {
-        FieldName = fieldName;
-        Expression = expression;
-    }
-
-    public string Expression { get; }
-    public FieldName FieldName { get; }
+    public string Expression { get; } = Guard.AgainstEmpty(expression);
+    public FieldName FieldName { get; } = Guard.AgainstUndefinedEnum<FieldName>(fieldName);
 }

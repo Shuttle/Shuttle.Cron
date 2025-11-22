@@ -1,4 +1,3 @@
-using System;
 using System.Text.RegularExpressions;
 
 namespace Shuttle.Core.Cron;
@@ -87,7 +86,7 @@ public class CronDayOfWeek : CronField
         {
             case ExpressionType.Skipped:
             {
-                return date;
+                break;
             }
             default:
             {

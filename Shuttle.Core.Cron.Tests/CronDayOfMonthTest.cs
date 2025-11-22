@@ -1,4 +1,3 @@
-using System;
 using NUnit.Framework;
 using Shuttle.Core.Specification;
 
@@ -180,7 +179,7 @@ public class CronDayOfMonthTest
                 : new Specification<CronField.Candidate>(candidate => candidate.Date.Day % 2 == 0);
         });
 
-        CronDayOfMonth field = null;
+        CronDayOfMonth? field = null;
         var control = new DateTime(DateTime.Now.Year, 01, 01);
         var date = control.AddDays(-1);
 
@@ -189,7 +188,7 @@ public class CronDayOfMonthTest
 
         for (var i = 0; i < 15; i++)
         {
-            date = field.GetNext(date.AddDays(1));
+            date = field!.GetNext(date.AddDays(1));
 
             Assert.That(date, Is.EqualTo(control.AddDays(i * 2 + 1)));
         }

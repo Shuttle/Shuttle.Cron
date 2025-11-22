@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 using Shuttle.Core.Contract;
 using Shuttle.Core.Specification;
 
@@ -20,21 +17,14 @@ public enum ExpressionType
     Skipped
 }
 
-public abstract class CronField : ISpecification<CronField.Candidate>
+public abstract class CronField(string expression, ISpecificationFactory? specificationFactory = null)
+    : ISpecification<CronField.Candidate>
 {
-    private readonly ISpecificationFactory? _specificationFactory;
-
     private readonly List<ISpecification<Candidate>> _specifications = new();
 
     protected readonly Regex RangeExpression = new(@"^(?<start>\d+)-(?<end>\d+)/(?<step>\d+)$|^(?<start>\d+)-(?<end>\d+)$|^(?<start>\d+)$|^(?<start>\d+)/(?<step>\d+)$|^(?<start>\*)/(?<step>\d+)$|^(?<start>\*)$", RegexOptions.IgnoreCase);
 
-    protected CronField(string expression, ISpecificationFactory? specificationFactory = null)
-    {
-        Expression = Guard.AgainstNullOrEmptyString(expression);
-        _specificationFactory = specificationFactory;
-    }
-
-    public string Expression { get; }
+    public string Expression { get; } = Guard.AgainstEmpty(expression);
     public ExpressionType ExpressionType { get; protected set; }
 
     public virtual bool IsSatisfiedBy(Candidate item)
@@ -59,9 +49,9 @@ public abstract class CronField : ISpecification<CronField.Candidate>
 
             if (!match.Success)
             {
-                Guard.Against<CronException>(_specificationFactory == null, string.Format(Resources.CronInvalidExpression, s));
+                Guard.Against<CronException>(specificationFactory == null, string.Format(Resources.CronInvalidExpression, s));
 
-                var specification = _specificationFactory!.Create(new(fieldName, s));
+                var specification = specificationFactory!.Create(new(fieldName, s));
 
                 Guard.Against<CronException>(specification == null, string.Format(Resources.NullSpecificationFromFactory, fieldName, s));
                 
@@ -110,20 +100,13 @@ public abstract class CronField : ISpecification<CronField.Candidate>
 
     protected string[] SplitValue()
     {
-        return Expression.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+        return Expression.Split([','], StringSplitOptions.RemoveEmptyEntries);
     }
 
-    public class Candidate
+    public class Candidate(FieldName fieldName, string expression, DateTime date)
     {
-        public Candidate(FieldName fieldName, string expression, DateTime date)
-        {
-            FieldName = Guard.AgainstUndefinedEnum<FieldName>(fieldName);
-            Expression = Guard.AgainstNullOrEmptyString(expression);
-            Date = date;
-        }
-
-        public DateTime Date { get; }
-        public string Expression { get; }
-        public FieldName FieldName { get; }
+        public DateTime Date { get; } = date;
+        public string Expression { get; } = Guard.AgainstEmpty(expression);
+        public FieldName FieldName { get; } = Guard.AgainstUndefinedEnum<FieldName>(fieldName);
     }
 }

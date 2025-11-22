@@ -1,4 +1,3 @@
-using System;
 using Shuttle.Core.Contract;
 
 namespace Shuttle.Core.Cron;
@@ -29,13 +28,13 @@ public class CronExpression
 
     public CronExpression(string expression, DateTime date, ISpecificationFactory? specificationFactory = null)
     {
-        Expression = Guard.AgainstNullOrEmptyString(expression);
+        Expression = Guard.AgainstEmpty(expression);
 
         _cronDate = Truncate(date);
 
         var factory = specificationFactory ?? new SpecificationFactory();
 
-        var values = expression.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+        var values = expression.Split([' '], StringSplitOptions.RemoveEmptyEntries);
 
         var length = values.Length;
 

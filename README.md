@@ -1,9 +1,5 @@
 # Shuttle.Core.Cron
 
-```
-PM> Install-Package Shuttle.Core.Cron
-```
-
 Provides [cron](https://en.wikipedia.org/wiki/Cron) expression parsing:
 
 ```

@@ -1,5 +1,4 @@
-﻿using System;
-using Shuttle.Core.Contract;
+﻿using Shuttle.Core.Contract;
 using Shuttle.Core.Specification;
 
 namespace Shuttle.Core.Cron;
