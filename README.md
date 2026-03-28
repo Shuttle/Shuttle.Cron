@@ -1,4 +1,4 @@
-﻿# Shuttle.Core.Cron
+# Shuttle.Core.Cron
 
 Provides [cron](https://en.wikipedia.org/wiki/Cron) expression parsing:
 
@@ -45,11 +45,11 @@ var endOfMonthRun = endOfMonthCron.NextOccurrence();
 ## CronExpression
 
 ``` c#
-public CronExpression(string expression, ISpecificationFactory specificationFactory = null) : this(expression, DateTime.Now, specificationFactory);
-public CronExpression(string expression, DateTime date, ISpecificationFactory specificationFactory = null);
+public CronExpression(string expression, ISpecificationFactory? specificationFactory = null) : this(expression, DateTime.Now, specificationFactory);
+public CronExpression(string expression, DateTime date, ISpecificationFactory? specificationFactory = null);
 ```
 
-Creates a `CronExpression` instance and parses the given `expression`.  The `date` specifies to root date from which to determine either the next or previous occurrence.
+Creates a `CronExpression` instance and parses the given `expression`.  The `date` specifies the root date from which to determine either the next or previous occurrence.
 
 ``` c#
 public DateTime NextOccurrence();
@@ -101,10 +101,10 @@ Examples:
 
 Specifications need to implement `ISpecification<CronField.Candidate>`.
 
-You may pass an implementation of the `ISpecificationFactory` as a parameter to the `CronExpression`.  There is a `DefaultSpecificationFactory` that accepts a function callback in the constructor for scenarios where an explicit `ISpecificationFactory` implementation may not be warranted, e.g.:
+You may pass an implementation of the `ISpecificationFactory` as a parameter to the `CronExpression`.  There is a `SpecificationFactory` that accepts a function callback in the constructor for scenarios where an explicit `ISpecificationFactory` implementation may not be warranted, e.g.:
 
 ``` c#
-var factory = new DefaultSpecificationFactory(parameters =>
+var factory = new SpecificationFactory(parameters =>
 {
     return !parameters.Expression.Equals("H", StringComparison.InvariantCultureIgnoreCase) 
         ? null 

@@ -2,13 +2,11 @@ using System.Text.RegularExpressions;
 
 namespace Shuttle.Core.Cron;
 
-public class CronDayOfWeek : CronField
+public partial class CronDayOfWeek : CronField
 {
-    private static readonly Regex NameExpression = new("sun|mon|tue|wed|thu|fri|sat|^l$",
-        RegexOptions.IgnoreCase);
+    private static readonly Regex NameExpression = CreateNameExpression();
 
-    private static readonly Regex OccurrenceExpression = new(@"^(?<day>\d)\#(?<occurrence>\d)$",
-        RegexOptions.IgnoreCase);
+    private static readonly Regex OccurrenceExpression = CreateOccurrenceExpression();
 
     public CronDayOfWeek(string value, ISpecificationFactory? specificationFactory = null)
         : base(NameExpression.Replace(value,
@@ -101,4 +99,10 @@ public class CronDayOfWeek : CronField
 
         return date;
     }
+
+    [GeneratedRegex("sun|mon|tue|wed|thu|fri|sat|^l$", RegexOptions.IgnoreCase, "en-ZA")]
+    private static partial Regex CreateNameExpression();
+    
+    [GeneratedRegex(@"^(?<day>\d)\#(?<occurrence>\d)$", RegexOptions.IgnoreCase, "en-ZA")]
+    private static partial Regex CreateOccurrenceExpression();
 }

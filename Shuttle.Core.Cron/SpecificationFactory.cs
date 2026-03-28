@@ -20,11 +20,8 @@ public class SpecificationFactory : ISpecificationFactory
     {
         Guard.AgainstNull(parameters);
 
-        if (_factory == null)
-        {
-            throw new CronException(string.Format(Resources.InvalidDefaultSpecificationFactoryConfiguration, parameters.Expression, parameters.FieldName));
-        }
-
-        return _factory.Invoke(parameters);
+        return _factory == null 
+            ? throw new CronException(string.Format(Resources.InvalidDefaultSpecificationFactoryConfiguration, parameters.Expression, parameters.FieldName)) 
+            : _factory.Invoke(parameters);
     }
 }

@@ -17,12 +17,12 @@ public enum ExpressionType
     Skipped
 }
 
-public abstract class CronField(string expression, ISpecificationFactory? specificationFactory = null)
+public abstract partial class CronField(string expression, ISpecificationFactory? specificationFactory = null)
     : ISpecification<CronField.Candidate>
 {
-    private readonly List<ISpecification<Candidate>> _specifications = new();
+    private readonly List<ISpecification<Candidate>> _specifications = [];
 
-    protected readonly Regex RangeExpression = new(@"^(?<start>\d+)-(?<end>\d+)/(?<step>\d+)$|^(?<start>\d+)-(?<end>\d+)$|^(?<start>\d+)$|^(?<start>\d+)/(?<step>\d+)$|^(?<start>\*)/(?<step>\d+)$|^(?<start>\*)$", RegexOptions.IgnoreCase);
+    protected readonly Regex RangeExpression = CreateRangeExpression();
 
     public string Expression { get; } = Guard.AgainstEmpty(expression);
     public ExpressionType ExpressionType { get; protected set; }
@@ -109,4 +109,7 @@ public abstract class CronField(string expression, ISpecificationFactory? specif
         public string Expression { get; } = Guard.AgainstEmpty(expression);
         public FieldName FieldName { get; } = Guard.AgainstUndefinedEnum<FieldName>(fieldName);
     }
+
+    [GeneratedRegex(@"^(?<start>\d+)-(?<end>\d+)/(?<step>\d+)$|^(?<start>\d+)-(?<end>\d+)$|^(?<start>\d+)$|^(?<start>\d+)/(?<step>\d+)$|^(?<start>\*)/(?<step>\d+)$|^(?<start>\*)$", RegexOptions.IgnoreCase, "en-ZA")]
+    private static partial Regex CreateRangeExpression();
 }
