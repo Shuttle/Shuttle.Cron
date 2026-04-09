@@ -16,7 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Shuttle.Core.Cron\Shuttle.Core.Cron.csproj" />
+    <ProjectReference Include="..\Shuttle.Cron\Shuttle.Cron.csproj" />
   </ItemGroup>
 
 </Project>

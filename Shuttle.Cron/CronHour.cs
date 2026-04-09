@@ -1,4 +1,4 @@
-namespace Shuttle.Core.Cron;
+namespace Shuttle.Cron;
 
 public class CronHour : CronField
 {

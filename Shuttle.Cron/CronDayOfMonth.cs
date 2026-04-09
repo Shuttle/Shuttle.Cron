@@ -1,6 +1,6 @@
 using System.Text.RegularExpressions;
 
-namespace Shuttle.Core.Cron;
+namespace Shuttle.Cron;
 
 public partial class CronDayOfMonth : CronField
 {

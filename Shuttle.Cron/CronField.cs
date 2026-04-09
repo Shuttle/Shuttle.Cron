@@ -1,8 +1,8 @@
 ﻿using System.Text.RegularExpressions;
-using Shuttle.Core.Contract;
-using Shuttle.Core.Specification;
+using Shuttle.Contract;
+using Shuttle.Specification;
 
-namespace Shuttle.Core.Cron;
+namespace Shuttle.Cron;
 
 public enum ExpressionType
 {

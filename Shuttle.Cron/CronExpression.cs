@@ -1,6 +1,6 @@
-using Shuttle.Core.Contract;
+using Shuttle.Contract;
 
-namespace Shuttle.Core.Cron;
+namespace Shuttle.Cron;
 
 public enum FieldName
 {

@@ -1,7 +1,7 @@
 using NUnit.Framework;
-using Shuttle.Core.Specification;
+using Shuttle.Specification;
 
-namespace Shuttle.Core.Cron.Tests;
+namespace Shuttle.Cron.Tests;
 
 [TestFixture]
 public class CronDayOfMonthTest

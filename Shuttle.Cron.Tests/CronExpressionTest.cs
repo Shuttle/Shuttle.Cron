@@ -1,6 +1,6 @@
 using NUnit.Framework;
 
-namespace Shuttle.Core.Cron.Tests;
+namespace Shuttle.Cron.Tests;
 
 [TestFixture]
 public class CronExpressionTest

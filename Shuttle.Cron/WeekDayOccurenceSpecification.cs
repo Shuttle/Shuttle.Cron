@@ -1,7 +1,7 @@
-using Shuttle.Core.Contract;
-using Shuttle.Core.Specification;
+using Shuttle.Contract;
+using Shuttle.Specification;
 
-namespace Shuttle.Core.Cron;
+namespace Shuttle.Cron;
 
 public class WeekDayOccurrenceSpecification(int weekDay, int occurrence) : ISpecification<CronField.Candidate>
 {
