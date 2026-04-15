@@ -1,7 +1,6 @@
-using System;
-using Shuttle.Core.Contract;
+using Shuttle.Contract;
 
-namespace Shuttle.Core.Cron;
+namespace Shuttle.Cron;
 
 public enum FieldName
 {
@@ -29,13 +28,13 @@ public class CronExpression
 
     public CronExpression(string expression, DateTime date, ISpecificationFactory? specificationFactory = null)
     {
-        Expression = Guard.AgainstNullOrEmptyString(expression);
+        Expression = Guard.AgainstEmpty(expression);
 
         _cronDate = Truncate(date);
 
         var factory = specificationFactory ?? new SpecificationFactory();
 
-        var values = expression.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+        var values = expression.Split([' '], StringSplitOptions.RemoveEmptyEntries);
 
         var length = values.Length;
 

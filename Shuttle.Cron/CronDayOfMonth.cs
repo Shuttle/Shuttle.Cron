@@ -1,11 +1,10 @@
-using System;
 using System.Text.RegularExpressions;
 
-namespace Shuttle.Core.Cron;
+namespace Shuttle.Cron;
 
-public class CronDayOfMonth : CronField
+public partial class CronDayOfMonth : CronField
 {
-    private readonly Regex _weekdayExpression = new(@"^(?<day>\d+)W$", RegexOptions.IgnoreCase);
+    private readonly Regex _weekdayExpression = CreateWeekdayExpression();
 
     public CronDayOfMonth(string expression, ISpecificationFactory? specificationFactory = null) : base(expression, specificationFactory)
     {
@@ -66,7 +65,7 @@ public class CronDayOfMonth : CronField
         {
             case ExpressionType.Skipped:
             {
-                return date;
+                break;
             }
             case ExpressionType.NearestWeekDay:
             {
@@ -124,4 +123,7 @@ public class CronDayOfMonth : CronField
 
         return date;
     }
+
+    [GeneratedRegex(@"^(?<day>\d+)W$", RegexOptions.IgnoreCase, "en-ZA")]
+    private static partial Regex CreateWeekdayExpression();
 }

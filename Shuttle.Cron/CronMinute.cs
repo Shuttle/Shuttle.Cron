@@ -1,6 +1,4 @@
-using System;
-
-namespace Shuttle.Core.Cron;
+namespace Shuttle.Cron;
 
 public class CronMinute : CronField
 {

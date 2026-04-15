@@ -1,12 +1,11 @@
-using System.Collections.Generic;
-using Shuttle.Core.Contract;
-using Shuttle.Core.Specification;
+using Shuttle.Contract;
+using Shuttle.Specification;
 
-namespace Shuttle.Core.Cron;
+namespace Shuttle.Cron;
 
 public class RangeSpecification : ISpecification<CronField.Candidate>
 {
-    private readonly List<int> _values = new();
+    private readonly List<int> _values = [];
 
     public RangeSpecification(int start, int end, int step)
     {

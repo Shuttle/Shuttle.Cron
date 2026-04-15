@@ -1,40 +1,62 @@
 # Shuttle.Core.Cron
 
-```
-PM> Install-Package Shuttle.Core.Cron
+Provides [cron](https://en.wikipedia.org/wiki/Cron) expression parsing:
+
+## Installation
+
+```bash
+dotnet add package Shuttle.Core.Cron
 ```
 
-Provides [cron](https://en.wikipedia.org/wiki/Cron) expression parsing:
+## Usage
 
 ```
  ┌───────────── minute (0 - 59)
- │ ┌───────────── hour (0 - 23)
- │ │ ┌───────────── day of the month (1 - 31)
- │ │ │ ┌───────────── month (1 - 12)
- │ │ │ │ ┌───────────── day of the week (1 - 7): Sunday to Saturday 
- │ │ │ │ │                                   
+ │ ┌─────────── hour (0 - 23)
+ │ │ ┌───────── day of the month (1 - 31)
+ │ │ │ ┌─────── month (1 - 12)
+ │ │ │ │ ┌───── day of the week (1 - 7): Sunday to Saturday 
  │ │ │ │ │
  │ │ │ │ │
  * * * * *
 ```
 
-This implementation starts from the `minute` field (so no `second`).  Any seconds are removed from all dates that are used.
+```c#
+using Shuttle.Core.Cron;
+
+// Create a cron expression for every 5 minutes
+var cron = new CronExpression("0/5 * * * *");
+
+// Get next occurrence
+var nextRun = cron.NextOccurrence();
+
+// Get next occurrence from a specific date
+var specificDate = new DateTime(2025, 1, 1, 10, 30, 0);
+var nextFromSpecific = cron.GetNextOccurrence(specificDate);
+
+// Get previous occurrence
+var previousRun = cron.PreviousOccurrence();
+
+// Example: Run at 2 AM on the last day of every month
+var endOfMonthCron = new CronExpression("0 2 L * *");
+var endOfMonthRun = endOfMonthCron.NextOccurrence();
+```
 
 ## CronExpression
 
 ``` c#
-public CronExpression(string expression, ISpecificationFactory specificationFactory = null) : this(expression, DateTime.Now, specificationFactory);
-public CronExpression(string expression, DateTime date, ISpecificationFactory specificationFactory = null);
+public CronExpression(string expression, ISpecificationFactory? specificationFactory = null) : this(expression, DateTime.Now, specificationFactory);
+public CronExpression(string expression, DateTime date, ISpecificationFactory? specificationFactory = null);
 ```
 
-Creates a `CronExpression` instance and parses the given `expression`.  The `date` specifies to root date from which to determine either the next or previous occurrence.
+Creates a `CronExpression` instance and parses the given `expression`.  The `date` specifies the root date from which to determine either the next or previous occurrence.
 
 ``` c#
 public DateTime NextOccurrence();
 public DateTime NextOccurrence(DateTime date);
 ```
 
-Returns the next date that would follow the given `date`.  This is accomplished by adding 1 muinute to the relevant date.  If no date is provided the root date will be used.  This method also sets the root date to the result.
+Returns the next date that would follow the given `date`.  This is accomplished by adding 1 minute to the relevant date.  If no date is provided the root date will be used.  This method also sets the root date to the result.
 
 ``` c#
 public DateTime GetNextOccurrence(DateTime date);
@@ -47,7 +69,7 @@ public DateTime PreviousOccurrence();
 public DateTime PreviousOccurrence(DateTime date);
 ```
 
-Returns the previous date that would precede the given `date`.  This is accomplished by subtracting 1 muinute from the relevant date.  If no date is provided the root date will be used.  This method also sets the root date to the result.
+Returns the previous date that would precede the given `date`.  This is accomplished by subtracting 1 minute from the relevant date.  If no date is provided the root date will be used.  This method also sets the root date to the result.
 
 ``` c#
 public DateTime GetPreviousOccurrence(DateTime date);
@@ -79,10 +101,10 @@ Examples:
 
 Specifications need to implement `ISpecification<CronField.Candidate>`.
 
-You may pass an implementation of the `ISpecificationFactory` as a parameter to the `CronExpression`.  There is a `DefaultSpecificationFactory` that accepts a function callback in the constructor for scenarios where an explicit `ISpecificationFactory` implementation may not be warranted, e.g.:
+You may pass an implementation of the `ISpecificationFactory` as a parameter to the `CronExpression`.  There is a `SpecificationFactory` that accepts a function callback in the constructor for scenarios where an explicit `ISpecificationFactory` implementation may not be warranted, e.g.:
 
 ``` c#
-var factory = new DefaultSpecificationFactory(parameters =>
+var factory = new SpecificationFactory(parameters =>
 {
     return !parameters.Expression.Equals("H", StringComparison.InvariantCultureIgnoreCase) 
         ? null 
