@@ -13,8 +13,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Shuttle.Contract" Version="21.0.1-rc3" />
-    <PackageReference Include="Shuttle.Specification" Version="21.0.1-rc3" />
+    <PackageReference Include="Shuttle.Contract" Version="21.0.1" />
+    <PackageReference Include="Shuttle.Specification" Version="21.0.1" />
   </ItemGroup>
 
   <ItemGroup>
@@ -34,7 +34,7 @@
 
   <PropertyGroup>
     <Description>Cron expression parsing.</Description>
-    <Version>21.0.1-rc3</Version>
+    <Version>21.0.1</Version>
     <PackageProjectUrl>https://github.com/Shuttle/Shuttle.Cron</PackageProjectUrl>
     <RepositoryUrl>https://github.com/Shuttle/Shuttle.Cron.git</RepositoryUrl>
     <PackageTags>cron scheduling</PackageTags>
