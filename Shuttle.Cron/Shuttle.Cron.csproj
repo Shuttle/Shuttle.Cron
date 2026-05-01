@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
@@ -34,7 +34,7 @@
 
   <PropertyGroup>
     <Description>Cron expression parsing.</Description>
-    <Version>21.0.1</Version>
+    <Version>21.0.2</Version>
     <PackageProjectUrl>https://github.com/Shuttle/Shuttle.Cron</PackageProjectUrl>
     <RepositoryUrl>https://github.com/Shuttle/Shuttle.Cron.git</RepositoryUrl>
     <PackageTags>cron scheduling</PackageTags>

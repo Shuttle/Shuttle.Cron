@@ -1,11 +1,11 @@
-# Shuttle.Core.Cron
+# Shuttle.Cron
 
 Provides [cron](https://en.wikipedia.org/wiki/Cron) expression parsing:
 
 ## Installation
 
 ```bash
-dotnet add package Shuttle.Core.Cron
+dotnet add package Shuttle.Cron
 ```
 
 ## Usage
@@ -22,7 +22,7 @@ dotnet add package Shuttle.Core.Cron
 ```
 
 ```c#
-using Shuttle.Core.Cron;
+using Shuttle.Cron;
 
 // Create a cron expression for every 5 minutes
 var cron = new CronExpression("0/5 * * * *");
